@@ -113,6 +113,7 @@ var _ = Describe(`WatsonxDataV2 Integration Tests`, func() {
 		})
 		It(`CreateBucketRegistration(createBucketRegistrationOptions *CreateBucketRegistrationOptions)`, func() {
 			bucketCatalogModel := &watsonxdatav2.BucketCatalog{
+				BasePath: core.StringPtr("/abc/def"),
 				CatalogName: core.StringPtr("sampleCatalog"),
 				CatalogTags: []string{"catalog_tag_1", "catalog_tag_2"},
 				CatalogType: core.StringPtr("iceberg"),
@@ -228,6 +229,27 @@ var _ = Describe(`WatsonxDataV2 Integration Tests`, func() {
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(201))
 			Expect(createActivateBucketCreatedBody).ToNot(BeNil())
+		})
+	})
+
+	Describe(`AddBucketCatalog - Add bucket catalog`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`AddBucketCatalog(addBucketCatalogOptions *AddBucketCatalogOptions)`, func() {
+			addBucketCatalogOptions := &watsonxdatav2.AddBucketCatalogOptions{
+				BucketID: core.StringPtr("testString"),
+				BasePath: core.StringPtr("/abc/def"),
+				CatalogName: core.StringPtr("sampleCatalog"),
+				CatalogTags: []string{"catalog_tag_1", "catalog_tag_2"},
+				CatalogType: core.StringPtr("iceberg"),
+				AuthInstanceID: core.StringPtr("testString"),
+			}
+
+			successResponse, response, err := watsonxDataService.AddBucketCatalog(addBucketCatalogOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(successResponse).ToNot(BeNil())
 		})
 	})
 
@@ -972,8 +994,13 @@ var _ = Describe(`WatsonxDataV2 Integration Tests`, func() {
 			shouldSkipTest()
 		})
 		It(`UpdatePrestissimoEngine(updatePrestissimoEngineOptions *UpdatePrestissimoEngineOptions)`, func() {
-			prestissimoEnginePropertiesCatalogModel := &watsonxdatav2.PrestissimoEnginePropertiesCatalog{
-				CatalogName: []string{"testString"},
+			enginePropertiesCatalogModel := &watsonxdatav2.EnginePropertiesCatalog{
+				Coordinator: map[string]string{"key1": "testString"},
+				Worker: map[string]string{"key1": "testString"},
+			}
+
+			prestissimoPropertiesCatalogModel := &watsonxdatav2.PrestissimoPropertiesCatalog{
+				CatalogName: enginePropertiesCatalogModel,
 			}
 
 			prestissimoNodeDescriptionBodyModel := &watsonxdatav2.PrestissimoNodeDescriptionBody{
@@ -990,20 +1017,19 @@ var _ = Describe(`WatsonxDataV2 Integration Tests`, func() {
 				VeloxProperty: []string{"testString"},
 			}
 
-			nodeDescriptionBodyModel := &watsonxdatav2.NodeDescriptionBody{
-				NodeType: core.StringPtr("worker"),
-				Quantity: core.Int64Ptr(int64(38)),
-			}
-
 			prestissimoEnginePropertiesOaiGen1JvmModel := &watsonxdatav2.PrestissimoEnginePropertiesOaiGen1Jvm{
-				Coordinator: nodeDescriptionBodyModel,
+				Coordinator: map[string]string{"key1": "testString"},
 			}
 
 			prestissimoEngineEnginePropertiesModel := &watsonxdatav2.PrestissimoEngineEngineProperties{
-				Catalog: prestissimoEnginePropertiesCatalogModel,
+				Catalog: prestissimoPropertiesCatalogModel,
 				Configuration: enginePropertiesOaiGenConfigurationModel,
 				Velox: prestissimoEnginePropertiesVeloxModel,
 				Jvm: prestissimoEnginePropertiesOaiGen1JvmModel,
+			}
+
+			prestissimoEnginePropertiesCatalogModel := &watsonxdatav2.PrestissimoEnginePropertiesCatalog{
+				CatalogName: []string{"testString"},
 			}
 
 			removeEnginePropertiesConfigurationModel := &watsonxdatav2.RemoveEnginePropertiesConfiguration{
@@ -1290,18 +1316,18 @@ var _ = Describe(`WatsonxDataV2 Integration Tests`, func() {
 			shouldSkipTest()
 		})
 		It(`UpdatePrestoEngine(updatePrestoEngineOptions *UpdatePrestoEngineOptions)`, func() {
-			prestoEnginePropertiesCatalogModel := &watsonxdatav2.PrestoEnginePropertiesCatalog{
-				CatalogName: core.StringPtr("testString"),
+			enginePropertiesCatalogModel := &watsonxdatav2.EnginePropertiesCatalog{
+				Coordinator: map[string]string{"key1": "testString"},
+				Worker: map[string]string{"key1": "testString"},
 			}
 
-			nodeDescriptionBodyModel := &watsonxdatav2.NodeDescriptionBody{
-				NodeType: core.StringPtr("worker"),
-				Quantity: core.Int64Ptr(int64(38)),
+			prestoEnginePropertiesCatalogModel := &watsonxdatav2.PrestoEnginePropertiesCatalog{
+				CatalogName: enginePropertiesCatalogModel,
 			}
 
 			enginePropertiesOaiGen1ConfigurationModel := &watsonxdatav2.EnginePropertiesOaiGen1Configuration{
-				Coordinator: nodeDescriptionBodyModel,
-				Worker: nodeDescriptionBodyModel,
+				Coordinator: map[string]string{"key1": "testString"},
+				Worker: map[string]string{"key1": "testString"},
 			}
 
 			prestoEnginePropertiesEventListenerModel := &watsonxdatav2.PrestoEnginePropertiesEventListener{
@@ -1313,8 +1339,8 @@ var _ = Describe(`WatsonxDataV2 Integration Tests`, func() {
 			}
 
 			enginePropertiesOaiGen1JvmModel := &watsonxdatav2.EnginePropertiesOaiGen1Jvm{
-				Coordinator: nodeDescriptionBodyModel,
-				Worker: nodeDescriptionBodyModel,
+				Coordinator: map[string]string{"key1": "testString"},
+				Worker: map[string]string{"key1": "testString"},
 			}
 
 			prestoEnginePropertiesJmxModel := &watsonxdatav2.PrestoEnginePropertiesJMX{
@@ -1322,8 +1348,8 @@ var _ = Describe(`WatsonxDataV2 Integration Tests`, func() {
 			}
 
 			enginePropertiesLogConfigurationModel := &watsonxdatav2.EnginePropertiesLogConfiguration{
-				Coordinator: nodeDescriptionBodyModel,
-				Worker: nodeDescriptionBodyModel,
+				Coordinator: map[string]string{"key1": "testString"},
+				Worker: map[string]string{"key1": "testString"},
 			}
 
 			prestoEngineEnginePropertiesModel := &watsonxdatav2.PrestoEngineEngineProperties{
@@ -1982,6 +2008,7 @@ var _ = Describe(`WatsonxDataV2 Integration Tests`, func() {
 				EngineDisplayName: core.StringPtr("test-native"),
 				Status: core.StringPtr("testString"),
 				Tags: []string{"testString"},
+				Type: core.StringPtr("spark"),
 				AuthInstanceID: core.StringPtr("testString"),
 			}
 
@@ -2970,6 +2997,45 @@ var _ = Describe(`WatsonxDataV2 Integration Tests`, func() {
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(200))
 			Expect(endpointCollection).ToNot(BeNil())
+		})
+	})
+
+	Describe(`RegisterTable - Register table`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`RegisterTable(registerTableOptions *RegisterTableOptions)`, func() {
+			registerTableOptions := &watsonxdatav2.RegisterTableOptions{
+				CatalogID: core.StringPtr("testString"),
+				SchemaID: core.StringPtr("testString"),
+				MetadataLocation: core.StringPtr("s3a://bucketname/path/to/table/metadata_location/_delta_log"),
+				TableName: core.StringPtr("table1"),
+				AuthInstanceID: core.StringPtr("testString"),
+			}
+
+			registerTableCreatedBody, response, err := watsonxDataService.RegisterTable(registerTableOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(registerTableCreatedBody).ToNot(BeNil())
+		})
+	})
+
+	Describe(`LoadTable - Load table metadata`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`LoadTable(loadTableOptions *LoadTableOptions)`, func() {
+			loadTableOptions := &watsonxdatav2.LoadTableOptions{
+				CatalogID: core.StringPtr("testString"),
+				SchemaID: core.StringPtr("testString"),
+				TableID: core.StringPtr("testString"),
+				AuthInstanceID: core.StringPtr("testString"),
+			}
+
+			loadTableResponse, response, err := watsonxDataService.LoadTable(loadTableOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(loadTableResponse).ToNot(BeNil())
 		})
 	})
 
