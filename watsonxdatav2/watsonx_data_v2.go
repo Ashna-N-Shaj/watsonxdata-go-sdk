@@ -15,7 +15,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.97.0-0e90eab1-20241120-170029
+ * IBM OpenAPI SDK Code Generator Version: 3.104.0-b4a47c49-20250418-184351
  */
 
 // Package watsonxdatav2 : Operations and models for the WatsonxDataV2 service
@@ -612,6 +612,98 @@ func (watsonxData *WatsonxDataV2) CreateActivateBucketWithContext(ctx context.Co
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalCreateActivateBucketCreatedBody)
+		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// AddBucketCatalog : Add bucket catalog
+// Add bucket catalog.
+func (watsonxData *WatsonxDataV2) AddBucketCatalog(addBucketCatalogOptions *AddBucketCatalogOptions) (result *SuccessResponse, response *core.DetailedResponse, err error) {
+	result, response, err = watsonxData.AddBucketCatalogWithContext(context.Background(), addBucketCatalogOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
+}
+
+// AddBucketCatalogWithContext is an alternate form of the AddBucketCatalog method which supports a Context parameter
+func (watsonxData *WatsonxDataV2) AddBucketCatalogWithContext(ctx context.Context, addBucketCatalogOptions *AddBucketCatalogOptions) (result *SuccessResponse, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(addBucketCatalogOptions, "addBucketCatalogOptions cannot be nil")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
+		return
+	}
+	err = core.ValidateStruct(addBucketCatalogOptions, "addBucketCatalogOptions")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"bucket_id": *addBucketCatalogOptions.BucketID,
+	}
+
+	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = watsonxData.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(watsonxData.Service.Options.URL, `/bucket_registrations/{bucket_id}/catalogs`, pathParamsMap)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
+		return
+	}
+
+	for headerName, headerValue := range addBucketCatalogOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("watsonx_data", "V2", "AddBucketCatalog")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/json")
+	if addBucketCatalogOptions.AuthInstanceID != nil {
+		builder.AddHeader("AuthInstanceId", fmt.Sprint(*addBucketCatalogOptions.AuthInstanceID))
+	}
+
+	body := make(map[string]interface{})
+	if addBucketCatalogOptions.BasePath != nil {
+		body["base_path"] = addBucketCatalogOptions.BasePath
+	}
+	if addBucketCatalogOptions.CatalogName != nil {
+		body["catalog_name"] = addBucketCatalogOptions.CatalogName
+	}
+	if addBucketCatalogOptions.CatalogTags != nil {
+		body["catalog_tags"] = addBucketCatalogOptions.CatalogTags
+	}
+	if addBucketCatalogOptions.CatalogType != nil {
+		body["catalog_type"] = addBucketCatalogOptions.CatalogType
+	}
+	_, err = builder.SetBodyContentJSON(body)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = watsonxData.Service.Request(request, &rawResponse)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "add_bucket_catalog", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalSuccessResponse)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
@@ -6931,6 +7023,9 @@ func (watsonxData *WatsonxDataV2) CreateSparkEngineWithContext(ctx context.Conte
 	if createSparkEngineOptions.Tags != nil {
 		body["tags"] = createSparkEngineOptions.Tags
 	}
+	if createSparkEngineOptions.Type != nil {
+		body["type"] = createSparkEngineOptions.Type
+	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
@@ -10927,6 +11022,167 @@ func (watsonxData *WatsonxDataV2) GetEndpointsWithContext(ctx context.Context, g
 	return
 }
 
+// RegisterTable : Register table
+// Register table.
+func (watsonxData *WatsonxDataV2) RegisterTable(registerTableOptions *RegisterTableOptions) (result *RegisterTableCreatedBody, response *core.DetailedResponse, err error) {
+	result, response, err = watsonxData.RegisterTableWithContext(context.Background(), registerTableOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
+}
+
+// RegisterTableWithContext is an alternate form of the RegisterTable method which supports a Context parameter
+func (watsonxData *WatsonxDataV2) RegisterTableWithContext(ctx context.Context, registerTableOptions *RegisterTableOptions) (result *RegisterTableCreatedBody, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(registerTableOptions, "registerTableOptions cannot be nil")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
+		return
+	}
+	err = core.ValidateStruct(registerTableOptions, "registerTableOptions")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"catalog_id": *registerTableOptions.CatalogID,
+		"schema_id": *registerTableOptions.SchemaID,
+	}
+
+	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = watsonxData.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(watsonxData.Service.Options.URL, `/catalogs/{catalog_id}/schemas/{schema_id}/register`, pathParamsMap)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
+		return
+	}
+
+	for headerName, headerValue := range registerTableOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("watsonx_data", "V2", "RegisterTable")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/json")
+	if registerTableOptions.AuthInstanceID != nil {
+		builder.AddHeader("AuthInstanceId", fmt.Sprint(*registerTableOptions.AuthInstanceID))
+	}
+
+	body := make(map[string]interface{})
+	if registerTableOptions.MetadataLocation != nil {
+		body["metadata_location"] = registerTableOptions.MetadataLocation
+	}
+	if registerTableOptions.TableName != nil {
+		body["table_name"] = registerTableOptions.TableName
+	}
+	_, err = builder.SetBodyContentJSON(body)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = watsonxData.Service.Request(request, &rawResponse)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "register_table", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRegisterTableCreatedBody)
+		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// LoadTable : Load table metadata
+// Load table metadata.
+func (watsonxData *WatsonxDataV2) LoadTable(loadTableOptions *LoadTableOptions) (result *LoadTableResponse, response *core.DetailedResponse, err error) {
+	result, response, err = watsonxData.LoadTableWithContext(context.Background(), loadTableOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
+}
+
+// LoadTableWithContext is an alternate form of the LoadTable method which supports a Context parameter
+func (watsonxData *WatsonxDataV2) LoadTableWithContext(ctx context.Context, loadTableOptions *LoadTableOptions) (result *LoadTableResponse, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(loadTableOptions, "loadTableOptions cannot be nil")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
+		return
+	}
+	err = core.ValidateStruct(loadTableOptions, "loadTableOptions")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"catalog_id": *loadTableOptions.CatalogID,
+		"schema_id": *loadTableOptions.SchemaID,
+		"table_id": *loadTableOptions.TableID,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = watsonxData.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(watsonxData.Service.Options.URL, `/catalogs/{catalog_id}/schemas/{schema_id}/tables/{table_id}/metadata`, pathParamsMap)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
+		return
+	}
+
+	for headerName, headerValue := range loadTableOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("watsonx_data", "V2", "LoadTable")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	if loadTableOptions.AuthInstanceID != nil {
+		builder.AddHeader("AuthInstanceId", fmt.Sprint(*loadTableOptions.AuthInstanceID))
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = watsonxData.Service.Request(request, &rawResponse)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "load_table", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalLoadTableResponse)
+		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
 // GetAllColumns : Get all columns
 // Get all columns.
 func (watsonxData *WatsonxDataV2) GetAllColumns(getAllColumnsOptions *GetAllColumnsOptions) (result *ColumnsResponse, response *core.DetailedResponse, err error) {
@@ -11295,8 +11551,84 @@ func getServiceComponentInfo() *core.ProblemComponent {
 	return core.NewProblemComponent(DefaultServiceName, "2.0.0")
 }
 
+// AddBucketCatalogOptions : The AddBucketCatalog options.
+type AddBucketCatalogOptions struct {
+	// bucket id.
+	BucketID *string `json:"bucket_id" validate:"required,ne="`
+
+	// catalog base path.
+	BasePath *string `json:"base_path,omitempty"`
+
+	// catalog name.
+	CatalogName *string `json:"catalog_name,omitempty"`
+
+	// catalog tags.
+	CatalogTags []string `json:"catalog_tags,omitempty"`
+
+	// catalog type.
+	CatalogType *string `json:"catalog_type,omitempty"`
+
+	// watsonx.data instance ID.
+	AuthInstanceID *string `json:"AuthInstanceId,omitempty"`
+
+	// Allows users to set headers on API requests.
+	Headers map[string]string
+}
+
+// NewAddBucketCatalogOptions : Instantiate AddBucketCatalogOptions
+func (*WatsonxDataV2) NewAddBucketCatalogOptions(bucketID string) *AddBucketCatalogOptions {
+	return &AddBucketCatalogOptions{
+		BucketID: core.StringPtr(bucketID),
+	}
+}
+
+// SetBucketID : Allow user to set BucketID
+func (_options *AddBucketCatalogOptions) SetBucketID(bucketID string) *AddBucketCatalogOptions {
+	_options.BucketID = core.StringPtr(bucketID)
+	return _options
+}
+
+// SetBasePath : Allow user to set BasePath
+func (_options *AddBucketCatalogOptions) SetBasePath(basePath string) *AddBucketCatalogOptions {
+	_options.BasePath = core.StringPtr(basePath)
+	return _options
+}
+
+// SetCatalogName : Allow user to set CatalogName
+func (_options *AddBucketCatalogOptions) SetCatalogName(catalogName string) *AddBucketCatalogOptions {
+	_options.CatalogName = core.StringPtr(catalogName)
+	return _options
+}
+
+// SetCatalogTags : Allow user to set CatalogTags
+func (_options *AddBucketCatalogOptions) SetCatalogTags(catalogTags []string) *AddBucketCatalogOptions {
+	_options.CatalogTags = catalogTags
+	return _options
+}
+
+// SetCatalogType : Allow user to set CatalogType
+func (_options *AddBucketCatalogOptions) SetCatalogType(catalogType string) *AddBucketCatalogOptions {
+	_options.CatalogType = core.StringPtr(catalogType)
+	return _options
+}
+
+// SetAuthInstanceID : Allow user to set AuthInstanceID
+func (_options *AddBucketCatalogOptions) SetAuthInstanceID(authInstanceID string) *AddBucketCatalogOptions {
+	_options.AuthInstanceID = core.StringPtr(authInstanceID)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *AddBucketCatalogOptions) SetHeaders(param map[string]string) *AddBucketCatalogOptions {
+	options.Headers = param
+	return options
+}
+
 // BucketCatalog : bucket catalog.
 type BucketCatalog struct {
+	// catalog base path.
+	BasePath *string `json:"base_path,omitempty"`
+
 	// catalog name.
 	CatalogName *string `json:"catalog_name,omitempty"`
 
@@ -11310,6 +11642,11 @@ type BucketCatalog struct {
 // UnmarshalBucketCatalog unmarshals an instance of BucketCatalog from the specified map of raw messages.
 func UnmarshalBucketCatalog(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(BucketCatalog)
+	err = core.UnmarshalPrimitive(m, "base_path", &obj.BasePath)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "base_path-error", common.GetComponentInfo())
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "catalog_name", &obj.CatalogName)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "catalog_name-error", common.GetComponentInfo())
@@ -14765,6 +15102,9 @@ type CreateSparkEngineOptions struct {
 	// Tags.
 	Tags []string `json:"tags,omitempty"`
 
+	// spark type.
+	Type *string `json:"type,omitempty"`
+
 	// CRN.
 	AuthInstanceID *string `json:"AuthInstanceId,omitempty"`
 
@@ -14778,6 +15118,13 @@ const (
 	CreateSparkEngineOptions_Origin_Discover = "discover"
 	CreateSparkEngineOptions_Origin_External = "external"
 	CreateSparkEngineOptions_Origin_Native = "native"
+)
+
+// Constants associated with the CreateSparkEngineOptions.Type property.
+// spark type.
+const (
+	CreateSparkEngineOptions_Type_Gluten = "gluten"
+	CreateSparkEngineOptions_Type_Spark = "spark"
 )
 
 // NewCreateSparkEngineOptions : Instantiate CreateSparkEngineOptions
@@ -14826,6 +15173,12 @@ func (_options *CreateSparkEngineOptions) SetStatus(status string) *CreateSparkE
 // SetTags : Allow user to set Tags
 func (_options *CreateSparkEngineOptions) SetTags(tags []string) *CreateSparkEngineOptions {
 	_options.Tags = tags
+	return _options
+}
+
+// SetType : Allow user to set Type
+func (_options *CreateSparkEngineOptions) SetType(typeVar string) *CreateSparkEngineOptions {
+	_options.Type = core.StringPtr(typeVar)
 	return _options
 }
 
@@ -17242,7 +17595,7 @@ type EngineDetailsBody struct {
 	// External engine connection string.
 	ConnectionString *string `json:"connection_string,omitempty"`
 
-	// Coordinator/ worker properties.
+	// coordinator/worker property settings.
 	Coordinator *NodeDescriptionBody `json:"coordinator,omitempty"`
 
 	// Instance to access the instance.
@@ -17256,7 +17609,7 @@ type EngineDetailsBody struct {
 	// and lite.
 	SizeConfig *string `json:"size_config,omitempty"`
 
-	// Coordinator/ worker properties.
+	// coordinator/worker property settings.
 	Worker *NodeDescriptionBody `json:"worker,omitempty"`
 }
 
@@ -17316,24 +17669,63 @@ func UnmarshalEngineDetailsBody(m map[string]json.RawMessage, result interface{}
 	return
 }
 
+// EnginePropertiesCatalog : Catalog settings.
+type EnginePropertiesCatalog struct {
+	// Coordinator/ worker properties.
+	Coordinator map[string]string `json:"coordinator,omitempty"`
+
+	// Coordinator/ worker properties.
+	Worker map[string]string `json:"worker,omitempty"`
+}
+
+// UnmarshalEnginePropertiesCatalog unmarshals an instance of EnginePropertiesCatalog from the specified map of raw messages.
+func UnmarshalEnginePropertiesCatalog(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(EnginePropertiesCatalog)
+	err = core.UnmarshalPrimitive(m, "coordinator", &obj.Coordinator)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "coordinator-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "worker", &obj.Worker)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "worker-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// asPatch returns a generic map representation of the EnginePropertiesCatalog
+func (enginePropertiesCatalog *EnginePropertiesCatalog) asPatch() (_patch map[string]interface{}) {
+	_patch = map[string]interface{}{}
+	if !core.IsNil(enginePropertiesCatalog.Coordinator) {
+		_patch["coordinator"] = enginePropertiesCatalog.Coordinator
+	}
+	if !core.IsNil(enginePropertiesCatalog.Worker) {
+		_patch["worker"] = enginePropertiesCatalog.Worker
+	}
+
+	return
+}
+
 // EnginePropertiesLogConfiguration : Log Configuration settings.
 type EnginePropertiesLogConfiguration struct {
 	// Coordinator/ worker properties.
-	Coordinator *NodeDescriptionBody `json:"coordinator,omitempty"`
+	Coordinator map[string]string `json:"coordinator,omitempty"`
 
 	// Coordinator/ worker properties.
-	Worker *NodeDescriptionBody `json:"worker,omitempty"`
+	Worker map[string]string `json:"worker,omitempty"`
 }
 
 // UnmarshalEnginePropertiesLogConfiguration unmarshals an instance of EnginePropertiesLogConfiguration from the specified map of raw messages.
 func UnmarshalEnginePropertiesLogConfiguration(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(EnginePropertiesLogConfiguration)
-	err = core.UnmarshalModel(m, "coordinator", &obj.Coordinator, UnmarshalNodeDescriptionBody)
+	err = core.UnmarshalPrimitive(m, "coordinator", &obj.Coordinator)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "coordinator-error", common.GetComponentInfo())
 		return
 	}
-	err = core.UnmarshalModel(m, "worker", &obj.Worker, UnmarshalNodeDescriptionBody)
+	err = core.UnmarshalPrimitive(m, "worker", &obj.Worker)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "worker-error", common.GetComponentInfo())
 		return
@@ -17346,10 +17738,10 @@ func UnmarshalEnginePropertiesLogConfiguration(m map[string]json.RawMessage, res
 func (enginePropertiesLogConfiguration *EnginePropertiesLogConfiguration) asPatch() (_patch map[string]interface{}) {
 	_patch = map[string]interface{}{}
 	if !core.IsNil(enginePropertiesLogConfiguration.Coordinator) {
-		_patch["coordinator"] = enginePropertiesLogConfiguration.Coordinator.asPatch()
+		_patch["coordinator"] = enginePropertiesLogConfiguration.Coordinator
 	}
 	if !core.IsNil(enginePropertiesLogConfiguration.Worker) {
-		_patch["worker"] = enginePropertiesLogConfiguration.Worker.asPatch()
+		_patch["worker"] = enginePropertiesLogConfiguration.Worker
 	}
 
 	return
@@ -17358,21 +17750,21 @@ func (enginePropertiesLogConfiguration *EnginePropertiesLogConfiguration) asPatc
 // EnginePropertiesOaiGen1Configuration : Configuration settings.
 type EnginePropertiesOaiGen1Configuration struct {
 	// Coordinator/ worker properties.
-	Coordinator *NodeDescriptionBody `json:"coordinator,omitempty"`
+	Coordinator map[string]string `json:"coordinator,omitempty"`
 
 	// Coordinator/ worker properties.
-	Worker *NodeDescriptionBody `json:"worker,omitempty"`
+	Worker map[string]string `json:"worker,omitempty"`
 }
 
 // UnmarshalEnginePropertiesOaiGen1Configuration unmarshals an instance of EnginePropertiesOaiGen1Configuration from the specified map of raw messages.
 func UnmarshalEnginePropertiesOaiGen1Configuration(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(EnginePropertiesOaiGen1Configuration)
-	err = core.UnmarshalModel(m, "coordinator", &obj.Coordinator, UnmarshalNodeDescriptionBody)
+	err = core.UnmarshalPrimitive(m, "coordinator", &obj.Coordinator)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "coordinator-error", common.GetComponentInfo())
 		return
 	}
-	err = core.UnmarshalModel(m, "worker", &obj.Worker, UnmarshalNodeDescriptionBody)
+	err = core.UnmarshalPrimitive(m, "worker", &obj.Worker)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "worker-error", common.GetComponentInfo())
 		return
@@ -17385,10 +17777,10 @@ func UnmarshalEnginePropertiesOaiGen1Configuration(m map[string]json.RawMessage,
 func (enginePropertiesOaiGen1Configuration *EnginePropertiesOaiGen1Configuration) asPatch() (_patch map[string]interface{}) {
 	_patch = map[string]interface{}{}
 	if !core.IsNil(enginePropertiesOaiGen1Configuration.Coordinator) {
-		_patch["coordinator"] = enginePropertiesOaiGen1Configuration.Coordinator.asPatch()
+		_patch["coordinator"] = enginePropertiesOaiGen1Configuration.Coordinator
 	}
 	if !core.IsNil(enginePropertiesOaiGen1Configuration.Worker) {
-		_patch["worker"] = enginePropertiesOaiGen1Configuration.Worker.asPatch()
+		_patch["worker"] = enginePropertiesOaiGen1Configuration.Worker
 	}
 
 	return
@@ -17397,21 +17789,21 @@ func (enginePropertiesOaiGen1Configuration *EnginePropertiesOaiGen1Configuration
 // EnginePropertiesOaiGen1Jvm : JVM settings.
 type EnginePropertiesOaiGen1Jvm struct {
 	// Coordinator/ worker properties.
-	Coordinator *NodeDescriptionBody `json:"coordinator,omitempty"`
+	Coordinator map[string]string `json:"coordinator,omitempty"`
 
 	// Coordinator/ worker properties.
-	Worker *NodeDescriptionBody `json:"worker,omitempty"`
+	Worker map[string]string `json:"worker,omitempty"`
 }
 
 // UnmarshalEnginePropertiesOaiGen1Jvm unmarshals an instance of EnginePropertiesOaiGen1Jvm from the specified map of raw messages.
 func UnmarshalEnginePropertiesOaiGen1Jvm(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(EnginePropertiesOaiGen1Jvm)
-	err = core.UnmarshalModel(m, "coordinator", &obj.Coordinator, UnmarshalNodeDescriptionBody)
+	err = core.UnmarshalPrimitive(m, "coordinator", &obj.Coordinator)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "coordinator-error", common.GetComponentInfo())
 		return
 	}
-	err = core.UnmarshalModel(m, "worker", &obj.Worker, UnmarshalNodeDescriptionBody)
+	err = core.UnmarshalPrimitive(m, "worker", &obj.Worker)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "worker-error", common.GetComponentInfo())
 		return
@@ -17424,10 +17816,10 @@ func UnmarshalEnginePropertiesOaiGen1Jvm(m map[string]json.RawMessage, result in
 func (enginePropertiesOaiGen1Jvm *EnginePropertiesOaiGen1Jvm) asPatch() (_patch map[string]interface{}) {
 	_patch = map[string]interface{}{}
 	if !core.IsNil(enginePropertiesOaiGen1Jvm.Coordinator) {
-		_patch["coordinator"] = enginePropertiesOaiGen1Jvm.Coordinator.asPatch()
+		_patch["coordinator"] = enginePropertiesOaiGen1Jvm.Coordinator
 	}
 	if !core.IsNil(enginePropertiesOaiGen1Jvm.Worker) {
-		_patch["worker"] = enginePropertiesOaiGen1Jvm.Worker.asPatch()
+		_patch["worker"] = enginePropertiesOaiGen1Jvm.Worker
 	}
 
 	return
@@ -21184,6 +21576,89 @@ func (options *ListTablesOptions) SetHeaders(param map[string]string) *ListTable
 	return options
 }
 
+// LoadTableOptions : The LoadTable options.
+type LoadTableOptions struct {
+	// catalog id.
+	CatalogID *string `json:"catalog_id" validate:"required,ne="`
+
+	// URL encoded schema name.
+	SchemaID *string `json:"schema_id" validate:"required,ne="`
+
+	// URL encoded table name.
+	TableID *string `json:"table_id" validate:"required,ne="`
+
+	// watsonx.data CRN.
+	AuthInstanceID *string `json:"AuthInstanceId,omitempty"`
+
+	// Allows users to set headers on API requests.
+	Headers map[string]string
+}
+
+// NewLoadTableOptions : Instantiate LoadTableOptions
+func (*WatsonxDataV2) NewLoadTableOptions(catalogID string, schemaID string, tableID string) *LoadTableOptions {
+	return &LoadTableOptions{
+		CatalogID: core.StringPtr(catalogID),
+		SchemaID: core.StringPtr(schemaID),
+		TableID: core.StringPtr(tableID),
+	}
+}
+
+// SetCatalogID : Allow user to set CatalogID
+func (_options *LoadTableOptions) SetCatalogID(catalogID string) *LoadTableOptions {
+	_options.CatalogID = core.StringPtr(catalogID)
+	return _options
+}
+
+// SetSchemaID : Allow user to set SchemaID
+func (_options *LoadTableOptions) SetSchemaID(schemaID string) *LoadTableOptions {
+	_options.SchemaID = core.StringPtr(schemaID)
+	return _options
+}
+
+// SetTableID : Allow user to set TableID
+func (_options *LoadTableOptions) SetTableID(tableID string) *LoadTableOptions {
+	_options.TableID = core.StringPtr(tableID)
+	return _options
+}
+
+// SetAuthInstanceID : Allow user to set AuthInstanceID
+func (_options *LoadTableOptions) SetAuthInstanceID(authInstanceID string) *LoadTableOptions {
+	_options.AuthInstanceID = core.StringPtr(authInstanceID)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *LoadTableOptions) SetHeaders(param map[string]string) *LoadTableOptions {
+	options.Headers = param
+	return options
+}
+
+// LoadTableResponse : LoadTableResponse struct
+type LoadTableResponse struct {
+	// Metadata location.
+	MetadataLocation *string `json:"metadata_location,omitempty"`
+
+	// Path to the table.
+	TablePath *string `json:"table_path,omitempty"`
+}
+
+// UnmarshalLoadTableResponse unmarshals an instance of LoadTableResponse from the specified map of raw messages.
+func UnmarshalLoadTableResponse(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(LoadTableResponse)
+	err = core.UnmarshalPrimitive(m, "metadata_location", &obj.MetadataLocation)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "metadata_location-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "table_path", &obj.TablePath)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "table_path-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // MilvusDatabaseCollections : List milvus collections.
 type MilvusDatabaseCollections struct {
 	// milvus collections.
@@ -21853,7 +22328,7 @@ func UnmarshalNodeDescription(m map[string]json.RawMessage, result interface{}) 
 	return
 }
 
-// NodeDescriptionBody : Coordinator/ worker properties.
+// NodeDescriptionBody : coordinator/worker property settings.
 type NodeDescriptionBody struct {
 	// Node Type, r5, m, i..
 	NodeType *string `json:"node_type,omitempty"`
@@ -21876,19 +22351,6 @@ func UnmarshalNodeDescriptionBody(m map[string]json.RawMessage, result interface
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// asPatch returns a generic map representation of the NodeDescriptionBody
-func (nodeDescriptionBody *NodeDescriptionBody) asPatch() (_patch map[string]interface{}) {
-	_patch = map[string]interface{}{}
-	if !core.IsNil(nodeDescriptionBody.NodeType) {
-		_patch["node_type"] = nodeDescriptionBody.NodeType
-	}
-	if !core.IsNil(nodeDescriptionBody.Quantity) {
-		_patch["quantity"] = nodeDescriptionBody.Quantity
-	}
-
 	return
 }
 
@@ -22660,7 +23122,7 @@ func UnmarshalPrestissimoEngineDetails(m map[string]json.RawMessage, result inte
 // PrestissimoEngineEngineProperties : Engine properties.
 type PrestissimoEngineEngineProperties struct {
 	// Catalog settings.
-	Catalog *PrestissimoEnginePropertiesCatalog `json:"catalog,omitempty"`
+	Catalog *PrestissimoPropertiesCatalog `json:"catalog,omitempty"`
 
 	// Configuration settings for the engine properties.
 	Configuration *EnginePropertiesOaiGenConfiguration `json:"configuration,omitempty"`
@@ -22675,7 +23137,7 @@ type PrestissimoEngineEngineProperties struct {
 // UnmarshalPrestissimoEngineEngineProperties unmarshals an instance of PrestissimoEngineEngineProperties from the specified map of raw messages.
 func UnmarshalPrestissimoEngineEngineProperties(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(PrestissimoEngineEngineProperties)
-	err = core.UnmarshalModel(m, "catalog", &obj.Catalog, UnmarshalPrestissimoEnginePropertiesCatalog)
+	err = core.UnmarshalModel(m, "catalog", &obj.Catalog, UnmarshalPrestissimoPropertiesCatalog)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "catalog-error", common.GetComponentInfo())
 		return
@@ -22839,13 +23301,13 @@ func (prestissimoEnginePropertiesCatalog *PrestissimoEnginePropertiesCatalog) as
 // PrestissimoEnginePropertiesOaiGen1Jvm : JVM settings.
 type PrestissimoEnginePropertiesOaiGen1Jvm struct {
 	// Coordinator/ worker properties.
-	Coordinator *NodeDescriptionBody `json:"coordinator,omitempty"`
+	Coordinator map[string]string `json:"coordinator,omitempty"`
 }
 
 // UnmarshalPrestissimoEnginePropertiesOaiGen1Jvm unmarshals an instance of PrestissimoEnginePropertiesOaiGen1Jvm from the specified map of raw messages.
 func UnmarshalPrestissimoEnginePropertiesOaiGen1Jvm(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(PrestissimoEnginePropertiesOaiGen1Jvm)
-	err = core.UnmarshalModel(m, "coordinator", &obj.Coordinator, UnmarshalNodeDescriptionBody)
+	err = core.UnmarshalPrimitive(m, "coordinator", &obj.Coordinator)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "coordinator-error", common.GetComponentInfo())
 		return
@@ -22858,7 +23320,7 @@ func UnmarshalPrestissimoEnginePropertiesOaiGen1Jvm(m map[string]json.RawMessage
 func (prestissimoEnginePropertiesOaiGen1Jvm *PrestissimoEnginePropertiesOaiGen1Jvm) asPatch() (_patch map[string]interface{}) {
 	_patch = map[string]interface{}{}
 	if !core.IsNil(prestissimoEnginePropertiesOaiGen1Jvm.Coordinator) {
-		_patch["coordinator"] = prestissimoEnginePropertiesOaiGen1Jvm.Coordinator.asPatch()
+		_patch["coordinator"] = prestissimoEnginePropertiesOaiGen1Jvm.Coordinator
 	}
 
 	return
@@ -22926,6 +23388,34 @@ func (prestissimoNodeDescriptionBody *PrestissimoNodeDescriptionBody) asPatch() 
 	}
 	if !core.IsNil(prestissimoNodeDescriptionBody.Quantity) {
 		_patch["quantity"] = prestissimoNodeDescriptionBody.Quantity
+	}
+
+	return
+}
+
+// PrestissimoPropertiesCatalog : Catalog settings.
+type PrestissimoPropertiesCatalog struct {
+	// Catalog settings.
+	CatalogName *EnginePropertiesCatalog `json:"catalog_name,omitempty"`
+}
+
+// UnmarshalPrestissimoPropertiesCatalog unmarshals an instance of PrestissimoPropertiesCatalog from the specified map of raw messages.
+func UnmarshalPrestissimoPropertiesCatalog(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(PrestissimoPropertiesCatalog)
+	err = core.UnmarshalModel(m, "catalog_name", &obj.CatalogName, UnmarshalEnginePropertiesCatalog)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "catalog_name-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// asPatch returns a generic map representation of the PrestissimoPropertiesCatalog
+func (prestissimoPropertiesCatalog *PrestissimoPropertiesCatalog) asPatch() (_patch map[string]interface{}) {
+	_patch = map[string]interface{}{}
+	if !core.IsNil(prestissimoPropertiesCatalog.CatalogName) {
+		_patch["catalog_name"] = prestissimoPropertiesCatalog.CatalogName.asPatch()
 	}
 
 	return
@@ -23476,14 +23966,14 @@ func (prestoEnginePatchRemoveEngineProperties *PrestoEnginePatchRemoveEngineProp
 
 // PrestoEnginePropertiesCatalog : Catalog settings.
 type PrestoEnginePropertiesCatalog struct {
-	// Name of the catalog.
-	CatalogName *string `json:"catalog_name,omitempty"`
+	// Catalog settings.
+	CatalogName *EnginePropertiesCatalog `json:"catalog_name,omitempty"`
 }
 
 // UnmarshalPrestoEnginePropertiesCatalog unmarshals an instance of PrestoEnginePropertiesCatalog from the specified map of raw messages.
 func UnmarshalPrestoEnginePropertiesCatalog(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(PrestoEnginePropertiesCatalog)
-	err = core.UnmarshalPrimitive(m, "catalog_name", &obj.CatalogName)
+	err = core.UnmarshalModel(m, "catalog_name", &obj.CatalogName, UnmarshalEnginePropertiesCatalog)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "catalog_name-error", common.GetComponentInfo())
 		return
@@ -23496,7 +23986,7 @@ func UnmarshalPrestoEnginePropertiesCatalog(m map[string]json.RawMessage, result
 func (prestoEnginePropertiesCatalog *PrestoEnginePropertiesCatalog) asPatch() (_patch map[string]interface{}) {
 	_patch = map[string]interface{}{}
 	if !core.IsNil(prestoEnginePropertiesCatalog.CatalogName) {
-		_patch["catalog_name"] = prestoEnginePropertiesCatalog.CatalogName
+		_patch["catalog_name"] = prestoEnginePropertiesCatalog.CatalogName.asPatch()
 	}
 
 	return
@@ -23766,6 +24256,91 @@ func UnmarshalPreviewIngestionFileRows(m map[string]json.RawMessage, result inte
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
 	return
+}
+
+// RegisterTableCreatedBody : success response.
+type RegisterTableCreatedBody struct {
+	// Response of success.
+	Response *SuccessResponse `json:"response,omitempty"`
+}
+
+// UnmarshalRegisterTableCreatedBody unmarshals an instance of RegisterTableCreatedBody from the specified map of raw messages.
+func UnmarshalRegisterTableCreatedBody(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(RegisterTableCreatedBody)
+	err = core.UnmarshalModel(m, "response", &obj.Response, UnmarshalSuccessResponse)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "response-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// RegisterTableOptions : The RegisterTable options.
+type RegisterTableOptions struct {
+	// catalog id.
+	CatalogID *string `json:"catalog_id" validate:"required,ne="`
+
+	// URL encoded schema name.
+	SchemaID *string `json:"schema_id" validate:"required,ne="`
+
+	// Metadata location.
+	MetadataLocation *string `json:"metadata_location" validate:"required"`
+
+	// Table name.
+	TableName *string `json:"table_name" validate:"required"`
+
+	// watsonx.data CRN.
+	AuthInstanceID *string `json:"AuthInstanceId,omitempty"`
+
+	// Allows users to set headers on API requests.
+	Headers map[string]string
+}
+
+// NewRegisterTableOptions : Instantiate RegisterTableOptions
+func (*WatsonxDataV2) NewRegisterTableOptions(catalogID string, schemaID string, metadataLocation string, tableName string) *RegisterTableOptions {
+	return &RegisterTableOptions{
+		CatalogID: core.StringPtr(catalogID),
+		SchemaID: core.StringPtr(schemaID),
+		MetadataLocation: core.StringPtr(metadataLocation),
+		TableName: core.StringPtr(tableName),
+	}
+}
+
+// SetCatalogID : Allow user to set CatalogID
+func (_options *RegisterTableOptions) SetCatalogID(catalogID string) *RegisterTableOptions {
+	_options.CatalogID = core.StringPtr(catalogID)
+	return _options
+}
+
+// SetSchemaID : Allow user to set SchemaID
+func (_options *RegisterTableOptions) SetSchemaID(schemaID string) *RegisterTableOptions {
+	_options.SchemaID = core.StringPtr(schemaID)
+	return _options
+}
+
+// SetMetadataLocation : Allow user to set MetadataLocation
+func (_options *RegisterTableOptions) SetMetadataLocation(metadataLocation string) *RegisterTableOptions {
+	_options.MetadataLocation = core.StringPtr(metadataLocation)
+	return _options
+}
+
+// SetTableName : Allow user to set TableName
+func (_options *RegisterTableOptions) SetTableName(tableName string) *RegisterTableOptions {
+	_options.TableName = core.StringPtr(tableName)
+	return _options
+}
+
+// SetAuthInstanceID : Allow user to set AuthInstanceID
+func (_options *RegisterTableOptions) SetAuthInstanceID(authInstanceID string) *RegisterTableOptions {
+	_options.AuthInstanceID = core.StringPtr(authInstanceID)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *RegisterTableOptions) SetHeaders(param map[string]string) *RegisterTableOptions {
+	options.Headers = param
+	return options
 }
 
 // RemoveEngineProperties : RemoveEngine properties.
